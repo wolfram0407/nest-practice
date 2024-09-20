@@ -6,9 +6,11 @@ import { DocumentBuilder, SwaggerCustomOptions, SwaggerModule } from '@nestjs/sw
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService);
+  app.setGlobalPrefix('/api');
   
   const port = configService.get<number>('PORT');
   const serviceName = configService.get<string>('SERVICE_NAME');  // 문자열로 변경
+
 
   const config = new DocumentBuilder()
     .setTitle(`${serviceName} API Docs`)
