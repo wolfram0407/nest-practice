@@ -26,4 +26,7 @@ export class UsersService {
     return this.userRepo.create(dto, hashedPassword);
   }
  
+  async findByEmail(email : string) {
+    return await this.userRepo.findByEmail(email);
+  }
 }

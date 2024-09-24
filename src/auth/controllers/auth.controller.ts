@@ -1,11 +1,13 @@
-import { Body, Controller, Post } from '@nestjs/common';
-import { AuthService } from './auth.service';
+import { Body, Controller, Post, Req } from '@nestjs/common';
+import { AuthService } from '../services/auth.service';
 import { UsersService } from 'src/users/users.service';
 import { ApiCreatedResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { createUserReqDto } from './dto/createUserReqDto';
-import { SignupResDto } from './dto/SignupResDto';
+import { createUserReqDto } from '../dto/createUserReqDto';
+import { SignupResDto } from '../dto/SignupResDto';
 import { Role } from 'src/types';
 import { Public } from 'src/common/public.decorator';
+import { LoginReqDto } from '../dto/LoginReqDto';
+import { LoginResDto } from '../dto/LoginResDto';
 
 
 
@@ -31,5 +33,18 @@ export class AuthController {
       phone: user.phone,
       roles: user.roles as Role, // Enum으로 반환 확인
     };
+  }
+
+  @Public()
+  @Post('login')
+  async login(
+    @Req() req: Request,
+    @Body() loginReqDto : LoginReqDto,
+   ) {
+
+    return this.authService.login(
+      loginReqDto.email,
+      loginReqDto.password,
+    )
   }
 }
