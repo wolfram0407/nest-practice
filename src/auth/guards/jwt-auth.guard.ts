@@ -1,24 +1,23 @@
-import { ExecutionContext, Injectable } from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
-import { Reflector } from "@nestjs/core";
-import { JwtService } from "@nestjs/jwt";
-import { AuthGuard } from "@nestjs/passport";
-import { ExtractJwt } from "passport-jwt";
-import { Observable } from "rxjs";
-import { IS_PUBLIC_KEY } from "src/common/public.decorator";
-import { UsersService } from "src/users/users.service";
+import {ExecutionContext, Injectable} from "@nestjs/common";
+import {ConfigService} from "@nestjs/config";
+import {Reflector} from "@nestjs/core";
+import {JwtService} from "@nestjs/jwt";
+import {AuthGuard} from "@nestjs/passport";
+import {Observable} from "rxjs";
+import {IS_PUBLIC_KEY} from "src/common/public.decorator";
+import {UsersService} from "src/users/users.service";
 
 
 @Injectable()
 export class JwtAuthGuard extends AuthGuard('jwt') {
   constructor(
-    private reflector : Reflector,
-    private jwtService : JwtService,
-    private usersService : UsersService,
+    private reflector: Reflector,
+    private jwtService: JwtService,
+    private usersService: UsersService,
     private readonly configService: ConfigService,
-  ){
+  ) {
     super(
-   
+
     );
   }
 
@@ -28,8 +27,8 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
       context.getClass(),
     ])
 
-    if (isPublic){
-        return true;
+    if (isPublic) {
+      return true;
     }
 
 

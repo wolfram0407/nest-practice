@@ -1,7 +1,7 @@
-import { Injectable, ConflictException, NotFoundException  } from '@nestjs/common';
+import {Injectable, ConflictException, NotFoundException} from '@nestjs/common';
 
-import { UserRepository } from './repositories/user.repository';
-import { createUserReqDto } from 'src/auth/dto/createUserReqDto';
+import {UserRepository} from './repositories/user.repository';
+import {createUserReqDto} from 'src/auth/dto/createUserReqDto';
 import * as argon2 from 'argon2';
 
 @Injectable()
@@ -25,8 +25,12 @@ export class UsersService {
     // 새로운 유저 생성 및 저장
     return this.userRepo.create(dto, hashedPassword);
   }
- 
-  async findByEmail(email : string) {
+
+  async findByEmail(email: string) {
     return await this.userRepo.findByEmail(email);
+  }
+
+  async findById(_id: string) {
+    return await this.userRepo.findById(_id);
   }
 }
