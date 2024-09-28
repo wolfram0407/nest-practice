@@ -1,16 +1,16 @@
 import {Body, Controller, Post, Req} from '@nestjs/common';
-import {AuthService} from '../services/auth.service';
+import {AuthService} from './auth.service';
 import {UsersService} from 'src/users/users.service';
 import {ApiBearerAuth, ApiCreatedResponse, ApiExtraModels, ApiOperation, ApiTags} from '@nestjs/swagger';
-import {createUserReqDto} from '../dto/createUserReqDto';
-import {SignupResDto} from '../dto/SignupResDto';
+import {createUserReqDto} from './dto/createUserReqDto';
+import {SignupResDto} from './dto/SignupResDto';
 import {Role} from 'src/types';
 import {Public} from 'src/common/docorator/public.decorator';
-import {LoginReqDto} from '../dto/LoginReqDto';
+import {LoginReqDto} from './dto/LoginReqDto';
 
 import {UserAfterAuth, User} from 'src/common/docorator/user.decorator';
-import {LogoutResDto} from '../dto/logoutResDto';
-import {LoginResDto} from '../dto/loginResDto';
+import {LogoutResDto} from './dto/logoutResDto';
+import {LoginResDto} from './dto/loginResDto';
 import {ApiPostResponse} from 'src/common/docorator/swagger.decorator';
 
 
