@@ -1,13 +1,14 @@
 import {Body, Controller, Post, Req} from '@nestjs/common';
 import {AuthService} from '../services/auth.service';
 import {UsersService} from 'src/users/users.service';
-import {ApiCreatedResponse, ApiOperation, ApiTags} from '@nestjs/swagger';
+import {ApiBearerAuth, ApiCreatedResponse, ApiOperation, ApiTags} from '@nestjs/swagger';
 import {createUserReqDto} from '../dto/createUserReqDto';
 import {SignupResDto} from '../dto/SignupResDto';
 import {Role} from 'src/types';
 import {Public} from 'src/common/public.decorator';
 import {LoginReqDto} from '../dto/LoginReqDto';
-import {LoginResDto} from '../dto/LoginResDto';
+
+import {UserAfterAuth, User} from 'src/common/user.decorator';
 
 
 
@@ -38,7 +39,6 @@ export class AuthController {
   @Public()
   @Post('login')
   async login(
-    @Req() req: Request,
     @Body() loginReqDto: LoginReqDto,
   ) {
 
@@ -46,5 +46,20 @@ export class AuthController {
       loginReqDto.email,
       loginReqDto.password,
     )
+  }
+
+  @ApiOperation({summary: '로그아웃', description: `로그아웃을 진행합니다.`})
+  @ApiBearerAuth()
+  @Post('logout')
+  async logout(
+    @User() user: UserAfterAuth
+  ) {
+    console.log('logout')
+    console.log(user);
+    /*
+      추후에 로그아웃 요청 시 토큰관리 하면 작업 필요
+    */
+    return user._id;
+
   }
 }
