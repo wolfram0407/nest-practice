@@ -1,9 +1,8 @@
-export type LoginResDto = {
+import {ApiProperty} from "@nestjs/swagger";
+
+export class LoginResDto {
+  @ApiProperty({required: true})
   accessToken: string;
+
   //refreshToken: string;
-  user: {
-    id: string;
-    name: string;
-    email: string;
-  };
 }

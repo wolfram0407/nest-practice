@@ -3,7 +3,7 @@ import {CatsService} from './cats.service';
 import {CreateCatDto} from './dto/create-cat.dto';
 import {UpdateCatDto} from './dto/update-cat.dto';
 import {ApiBearerAuth} from '@nestjs/swagger';
-import {User, UserAfterAuth} from 'src/common/user.decorator';
+import {User, UserAfterAuth} from 'src/common/docorator/user.decorator';
 
 @Controller('cats')
 export class CatsController {

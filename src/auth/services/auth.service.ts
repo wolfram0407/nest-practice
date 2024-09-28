@@ -6,6 +6,7 @@ import {TokenPayload} from 'src/types';
 import {User} from 'src/users/schemas/user.entity';
 import {UsersService} from 'src/users/users.service';
 import {v4 as uuidv4} from 'uuid';
+import {LoginResDto} from '../dto/loginResDto';
 
 @Injectable()
 export class AuthService {
@@ -18,7 +19,7 @@ export class AuthService {
   async login(
     email: string,
     password: string,
-  ) {
+  ): Promise<LoginResDto> {
     const user = await this.validateUser(email, password);
     const payload: TokenPayload = this.createTokenPayload(user._id);
     const accessToken = await this.createAccessToken(user, payload)
@@ -28,11 +29,10 @@ export class AuthService {
     }
   }
 
-
   private async validateUser(
     email: string,
     plainPassword: string,
-  ) {
+  ): Promise<User> {
     const user = await this.userService.findByEmail(email);
     if (user && (await argon2.verify(user.password, plainPassword))) {
       return user;
@@ -54,10 +54,6 @@ export class AuthService {
     const payloads = {...payload, tokeType: 'access'}
     return this.jwtService.sign(payloads, {expiresIn});
   }
-
-
-
-
 
 
 
