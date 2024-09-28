@@ -1,6 +1,6 @@
-import { Injectable } from '@nestjs/common';
-import { CreateLockerDto } from './dto/create-locker.dto';
-import { UpdateLockerDto } from './dto/update-locker.dto';
+import {Injectable} from '@nestjs/common';
+import {CreateLockerDto} from './dto/create-locker.dto';
+import {UpdateLockerDto} from './dto/update-locker.dto';
 
 @Injectable()
 export class LockerService {

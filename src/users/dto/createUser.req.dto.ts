@@ -33,5 +33,5 @@ export class createUserReqDto {
   @IsEnum(Role)
   role: Role;
 
- 
+
 }

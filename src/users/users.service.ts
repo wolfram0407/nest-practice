@@ -1,8 +1,9 @@
 import {Injectable, ConflictException, NotFoundException} from '@nestjs/common';
 
-import {UserRepository} from './repositories/user.repository';
-import {createUserReqDto} from 'src/auth/dto/createUserReqDto';
+import {UserRepository} from './repository/user.repository';
+
 import * as argon2 from 'argon2';
+import {createUserReqDto} from './dto/createUser.req.dto';
 
 @Injectable()
 export class UsersService {
