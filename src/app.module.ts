@@ -7,6 +7,8 @@ import { CatsModule } from './cats/cats.module';
 import configuration, { validationSchema } from './config/configuration';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
+import { LockerModule } from './locker/locker.module';
+import { LockerTypeModule } from './locker-type/locker-type.module';
 
 @Module({
   imports: [
@@ -20,6 +22,8 @@ import { UsersModule } from './users/users.module';
     CatsModule,
     AuthModule,
     UsersModule,
+    LockerModule,
+    LockerTypeModule,
   ],
   controllers: [],
   providers: [],

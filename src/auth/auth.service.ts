@@ -6,7 +6,7 @@ import {TokenPayload} from 'src/types';
 import {User} from 'src/users/schemas/user.entity';
 import {UsersService} from 'src/users/users.service';
 import {v4 as uuidv4} from 'uuid';
-import {LoginResDto} from '../dto/loginResDto';
+import {LoginResDto} from './dto/loginResDto';
 
 @Injectable()
 export class AuthService {
