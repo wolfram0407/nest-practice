@@ -10,7 +10,7 @@ export class LockerType {
   @Prop({type: String, default: uuidv4})
   _id: string;
 
-  @Prop({type: String, required: true})
+  @Prop({type: String, required: true, unique: true})
   name: string;
 
   @Prop({type: String, required: true})
