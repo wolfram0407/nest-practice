@@ -24,7 +24,7 @@ export class LockerTypeController {
   }
 
   @ApiOperation({summary: '락카 타입 수정', description: ``})
-  @ApiParam({name: 'lockerTypeId', description: '수정할 락카 타입의 ID', example: '5348ee0a-ea9b-47e4-b541-4770232cef57'})
+  @ApiParam({name: 'lockerTypeId', description: '수정할 락카 타입의 ID', example: '8bdc986b-6394-4a22-8c0f-d9d9022d3e05'})
   @ApiBearerAuth()
   @Put('update/:lockerTypeId')
   async updateLockerType(

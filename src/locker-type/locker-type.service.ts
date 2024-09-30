@@ -28,19 +28,23 @@ export class LockerTypeService {
   }
 
   async updateLockerType(user: UserAfterAuth, lockerTypeId: UUID, updateLockerTypeDto: UpdateLockerTypeReqDto): Promise<LockerTypeDocument> {
+    const existingLockerType = await this.lockerTypeRepo.findLockerTypeByName(user, updateLockerTypeDto.name);
+    if (existingLockerType !== null) {
+      throw new ConflictException('User with this email already exists');
+    }
+    const getLockerType = await this.lockerTypeRepo.findLockerTypeByLockerId(lockerTypeId)
 
-    const checkLockerType = await this.lockerTypeRepo.findLockerTypeByLockerId(lockerTypeId)
-
-    if (checkLockerType === null) {
+    if (getLockerType === null) {
       throw new NotFoundException('Locker Type NotFound');
     }
 
-    if (checkLockerType.userId !== user._id) {
+    if (getLockerType.userId !== user._id) {
       throw new UnauthorizedException('Locker Type Unauthorized');
     }
     // 락카 삭제되었을 떄 조건 추가 필요
 
-    return await this.lockerTypeRepo.updateLockerType(checkLockerType, updateLockerTypeDto)
+
+    return await this.lockerTypeRepo.updateLockerType(getLockerType, updateLockerTypeDto)
   }
 
   findAll() {
