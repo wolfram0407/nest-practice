@@ -23,6 +23,19 @@ export const ApiPostResponse = <TModel extends Type<any>>(model: TModel) => {
   )
 }
 
+export const ApiPostArrayResponse = <TModel extends Type<any>>(model: TModel) => {
+  return applyDecorators(
+    ApiCreatedResponse({
+      schema: {
+        type: 'array',
+        items: {
+          $ref: getSchemaPath(model),
+        }
+      }
+    })
+  );
+};
+
 export const ApiGetItemsResponse = <TModel extends Type<any>>(model: TModel) => {
   return applyDecorators(
     ApiOkResponse({
