@@ -19,7 +19,7 @@ export class LockerType {
   @Prop({type: String, required: true})
   startNumber: number;
 
-  @Prop({type: String, required: true})
+  @Prop({type: Array , required: true})
   exceptNumber: number[];
 
   @Prop({type: String, ref: 'User', required: true})

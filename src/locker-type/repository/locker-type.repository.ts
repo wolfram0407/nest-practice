@@ -22,7 +22,7 @@ export class LockerTypeRepository {
       name: createLockerTypeDto.name,
       quantity: createLockerTypeDto.quantity,
       startNumber: createLockerTypeDto.startNumber,
-      exceptNumber: createLockerTypeDto.exceptNumber,
+      exceptNumber: createLockerTypeDto.exceptNumber ?? [],
       userId: user._id,
     });
     return await newLockerType.save();
