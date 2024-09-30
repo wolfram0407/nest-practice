@@ -22,7 +22,7 @@ export class LockerTypeService {
     const existingLockerType = await this.lockerTypeRepo.findLockerTypeByName(user, createLockerTypeDto.name);
     if (existingLockerType !== null) {
       // 유저 정보에서 동일한 락카 타입명이 존재하면 ConflictException 발생
-      throw new ConflictException('User with this email already exists');
+      throw new ConflictException();
     }
     return await this.lockerTypeRepo.createLockerType(user, createLockerTypeDto)
   }
@@ -30,16 +30,16 @@ export class LockerTypeService {
   async updateLockerType(user: UserAfterAuth, lockerTypeId: UUID, updateLockerTypeDto: UpdateLockerTypeReqDto): Promise<LockerTypeDocument> {
     const existingLockerType = await this.lockerTypeRepo.findLockerTypeByName(user, updateLockerTypeDto.name);
     if (existingLockerType !== null) {
-      throw new ConflictException('User with this email already exists');
+      throw new ConflictException();
     }
     const getLockerType = await this.lockerTypeRepo.findLockerTypeByLockerId(lockerTypeId)
 
     if (getLockerType === null) {
-      throw new NotFoundException('Locker Type NotFound');
+      throw new NotFoundException();
     }
 
     if (getLockerType.userId !== user._id) {
-      throw new UnauthorizedException('Locker Type Unauthorized');
+      throw new UnauthorizedException();
     }
     // 락카 삭제되었을 떄 조건 추가 필요
 
@@ -47,16 +47,23 @@ export class LockerTypeService {
     return await this.lockerTypeRepo.updateLockerType(getLockerType, updateLockerTypeDto)
   }
 
-  findAll() {
-    return `This action returns all lockerType`;
+  async findAllLockerTypes(userId : UUID) {
+    return await this.lockerTypeRepo.findLockerTypeByUserId(userId);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} lockerType`;
+  async findOneLockerType(userId: UUID, lockerTypeId : UUID) {  
+    return await this.lockerTypeRepo.findOneLockerTypeByLockerId(lockerTypeId);
   }
 
 
-  remove(id: number) {
-    return `This action removes a #${id} lockerType`;
+  async deleteLockerType(userId: UUID, lockerTypeId : UUID) {
+    const lockerType = await this.lockerTypeRepo.findOneLockerTypeByLockerId(lockerTypeId)
+    if (!lockerType) {
+      throw new NotFoundException();
+    }
+    if (lockerType.userId!== userId) {
+      throw new UnauthorizedException();
+    }
+    return await this.lockerTypeRepo.deleteLockerType(lockerTypeId, lockerType);
   }
 }

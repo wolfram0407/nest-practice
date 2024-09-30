@@ -3,7 +3,7 @@ import {UpdateLockerTypeReqDto} from './../dto/updateLockerType.req.dto';
 import {InjectModel} from '@nestjs/mongoose';
 import {Model} from 'mongoose';
 import {LockerType, LockerTypeDocument, lockerTypeSchema} from '../schemas/locker-type.schema';
-import {Injectable} from '@nestjs/common';
+import {Injectable, NotFoundException} from '@nestjs/common';
 import {CreateLockerTypeReqDto} from '../dto/createLockerType.req.dto';
 import {UserAfterAuth} from 'src/common/docorator/user.decorator';
 import {UUID} from 'crypto';
@@ -29,11 +29,28 @@ export class LockerTypeRepository {
   }
   // 
   async findLockerTypeByName(user: UserAfterAuth, name: string) {
-    return await this.lockerTypeModel.findOne({name, userId: user._id}).exec();
+    return await this.lockerTypeModel.findOne({name, userId: user._id,deletedAt: null}).exec();
   }
 
   async findLockerTypeByLockerId(lockerTypeId: UUID) {
-    return await this.lockerTypeModel.findOne({_id: lockerTypeId})
+    return await this.lockerTypeModel.findOne({
+      _id: lockerTypeId,
+      deletedAt: null
+    }).exec();
+  }
+
+  async findLockerTypeByUserId ( userId : UUID) {
+    return await this.lockerTypeModel.find({
+      userId ,
+      deletedAt: null
+    }).exec();
+  }
+
+  async findOneLockerTypeByLockerId( lockerTypeId: UUID) {
+    return await this.lockerTypeModel.findOne({
+      _id: lockerTypeId,
+      deletedAt: null
+    }).exec();
   }
 
   async updateLockerType(lockerType: LockerTypeDocument, updateLockerTypeReqDto: UpdateLockerTypeReqDto): Promise<LockerTypeDocument> {
@@ -46,5 +63,11 @@ export class LockerTypeRepository {
     return lockerType;
   }
 
+
+  async deleteLockerType(lockerTypeId: UUID, lockerType : LockerTypeDocument) {
+    lockerType.deletedAt = new Date();
+    await lockerType.save();
+    return lockerType;
+  }
 
 }

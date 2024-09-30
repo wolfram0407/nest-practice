@@ -36,20 +36,35 @@ export class LockerTypeController {
     return await this.lockerTypeService.updateLockerType(user, lockerTypeId, updateLockerTypeDto);;
   }
 
+  @ApiOperation({summary: '전체 락카 타입 조회', description: `로그인 된 이용자의 전체 락카타입을 조회합니다.`})
+  @ApiBearerAuth()
   @Get()
-  findAll() {
-    return this.lockerTypeService.findAll();
+  async findAllLockerTypes(
+    @User() { _id } : UserAfterAuth,
+  ) {
+    return await this.lockerTypeService.findAllLockerTypes(_id);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.lockerTypeService.findOne(+id);
+  @ApiOperation({summary: '특정 락카 타입 조회', description: `로그인 된 이용자의 특정 락카 타입을 조회 합니다.`})
+  @ApiBearerAuth()
+  @ApiParam({name: 'lockerTypeId', description: '수정할 락카 타입의 ID', example: '8bdc986b-6394-4a22-8c0f-d9d9022d3e05'})
+  @Get(':lockerTypeId')
+  async findOneLockerType(
+    @User() { _id } : UserAfterAuth,
+    @Param('lockerTypeId') lockerTypeId: UUID
+  ) {
+    return await this.lockerTypeService.findOneLockerType(_id, lockerTypeId);
   }
 
 
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.lockerTypeService.remove(+id);
+  @ApiOperation({summary: '특정 락카 타입 삭제', description: `로그인 된 이용자의 특정 락카 타입을  삭제합니다.`})
+  @ApiBearerAuth()
+  @ApiParam({name: 'lockerTypeId', description: '삭제할 락카 타입의 ID', example: '8bdc986b-6394-4a22-8c0f-d9d9022d3e05'})
+  @Delete(':lockerTypeId')
+  async deleteLockerType(
+    @User() { _id } : UserAfterAuth,
+    @Param('lockerTypeId') lockerTypeId: UUID
+    ) {
+    return await this.lockerTypeService.deleteLockerType(_id, lockerTypeId);
   }
 }
