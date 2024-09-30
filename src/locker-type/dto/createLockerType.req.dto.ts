@@ -1,5 +1,5 @@
 import {ApiProperty} from "@nestjs/swagger";
-import {IsNotEmpty, IsUUID, MaxLength} from "class-validator";
+import {IsArray, IsNotEmpty, IsNumber, IsOptional, MaxLength} from "class-validator";
 
 export class CreateLockerTypeReqDto {
 
@@ -16,8 +16,10 @@ export class CreateLockerTypeReqDto {
   @IsNotEmpty()
   startNumber: number;
 
-  @ApiProperty({required: true, example: 1})
-  @IsNotEmpty()
+
+  @ApiProperty({ required: true, example: [1, 2, 4] })
+  @IsNumber({}, { each: true }) 
+  @IsOptional()
   exceptNumber: number[];
 
 }

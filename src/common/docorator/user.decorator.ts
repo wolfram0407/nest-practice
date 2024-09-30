@@ -8,7 +8,7 @@ export const User = createParamDecorator((data: unknown, ctx: ExecutionContext) 
 })
 
 export interface UserAfterAuth {
-  _id: string
+  _id: string,
   email: string,
   name: string,
   phone: string,

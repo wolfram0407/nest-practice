@@ -1,5 +1,5 @@
 import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
-import {Document, Schema as mongooseSchema} from 'mongoose';
+import {Document} from 'mongoose';
 import {v4 as uuidv4} from 'uuid';
 
 export type LockerTypeDocument = LockerType & Document;
@@ -7,10 +7,10 @@ export type LockerTypeDocument = LockerType & Document;
 @Schema()
 export class LockerType {
 
-  @Prop({type: String, default: uuidv4})
+  @Prop({type: uuidv4, default: uuidv4})
   _id: string;
 
-  @Prop({type: String, required: true, unique: true})
+  @Prop({type: String, required: true})
   name: string;
 
   @Prop({type: String, required: true})
@@ -19,10 +19,10 @@ export class LockerType {
   @Prop({type: String, required: true})
   startNumber: number;
 
-  @Prop({type: String, required: true})
+  @Prop({type: Array , required: true })
   exceptNumber: number[];
 
-  @Prop({type: String, ref: 'User', required: true})
+  @Prop({type: uuidv4, ref: 'User', required: true})
   userId: string;
 
   @Prop({type: Date, default: Date.now})
