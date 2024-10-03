@@ -1,5 +1,5 @@
 import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
-import {Document, Schema as mongooseSchema} from 'mongoose';
+import {Document} from 'mongoose';
 import {v4 as uuidv4} from 'uuid';
 
 export type LockerTypeDocument = LockerType & Document;

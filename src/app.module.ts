@@ -9,6 +9,7 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { LockerModule } from './locker/locker.module';
 import { LockerTypeModule } from './locker-type/locker-type.module';
+import { CustomerModule } from './customer/customer.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { LockerTypeModule } from './locker-type/locker-type.module';
     UsersModule,
     LockerModule,
     LockerTypeModule,
+    CustomerModule,
   ],
   controllers: [],
   providers: [],
