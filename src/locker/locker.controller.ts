@@ -1,7 +1,10 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { LockerService } from './locker.service';
-import { CreateLockerDto } from './dto/create-locker.dto';
-import { UpdateLockerDto } from './dto/update-locker.dto';
+import {Controller, Get, Post, Body, Patch, Param, Delete} from '@nestjs/common';
+import {LockerService} from './locker.service';
+import {CreateLockerDto} from './dto/create-locker.dto';
+import {UpdateLockerDto} from './dto/update-locker.dto';
+import {ApiTags} from '@nestjs/swagger';
+
+@ApiTags('locker')
 
 @Controller('locker')
 export class LockerController {

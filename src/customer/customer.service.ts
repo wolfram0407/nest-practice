@@ -1,10 +1,15 @@
-import { Injectable } from '@nestjs/common';
-import { CreateCustomerDto } from './dto/create-customer.dto';
-import { UpdateCustomerDto } from './dto/update-customer.dto';
+import {Injectable} from '@nestjs/common';
+import {CreateCustomerDto} from './dto/createCutomerReq';
+import {UpdateCustomerDto} from './dto/update-customer.dto';
+import {UserAfterAuth} from 'src/common/docorator/user.decorator';
+
 
 @Injectable()
 export class CustomerService {
-  create(createCustomerDto: CreateCustomerDto) {
+
+  create(user: UserAfterAuth, createCustomerDto: CreateCustomerDto) {
+    console.log(user)
+    console.log(createCustomerDto)
     return 'This action adds a new customer';
   }
 
