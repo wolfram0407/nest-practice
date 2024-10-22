@@ -9,7 +9,6 @@ import {Public} from 'src/common/docorator/public.decorator';
 import {LoginReqDto} from './dto/LoginReqDto';
 
 import {UserAfterAuth, User} from 'src/common/docorator/user.decorator';
-import {LogoutResDto} from './dto/logoutResDto';
 import {LoginResDto} from './dto/loginResDto';
 import {ApiPostResponse} from 'src/common/docorator/swagger.decorator';
 import {createUserReqDto} from 'src/users/dto/createUser.req.dto';
@@ -17,7 +16,7 @@ import {createUserReqDto} from 'src/users/dto/createUser.req.dto';
 
 
 @ApiTags('Auth')
-@ApiExtraModels(LoginResDto, SignupResDto, LogoutResDto)
+@ApiExtraModels(LoginResDto, SignupResDto)
 @Controller('auth')
 export class AuthController {
 
@@ -35,7 +34,6 @@ export class AuthController {
     const user = await this.userService.createUser(createUserDto);
 
     return {
-      _id: user._id,
       name: user.name,
       email: user.email,
       phone: user.phone,
@@ -55,19 +53,19 @@ export class AuthController {
       loginReqDto.password,
     )
   }
-  @ApiPostResponse(LogoutResDto)
+
   @ApiOperation({summary: '로그아웃', description: `로그아웃을 진행합니다.`})
   @ApiBearerAuth()
   @Post('logout')
   async logout(
     @User() user: UserAfterAuth
-  ): Promise<LogoutResDto> {
+  ) {
     console.log('logout')
     console.log(user);
     /*
       추후에 로그아웃 요청 시 토큰관리 하면 작업 필요
     */
-    return {_id: user._id};
+    return;
   }
 }
 

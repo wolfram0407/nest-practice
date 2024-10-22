@@ -1,9 +1,8 @@
 import {ApiProperty} from "@nestjs/swagger";
-import { Role } from "src/types";
+import {Role} from "src/types";
 
 export class SignupResDto {
-  @ApiProperty({required: true})
-  _id: string;
+
   @ApiProperty({required: true})
   name: string;
   @ApiProperty({required: true})
