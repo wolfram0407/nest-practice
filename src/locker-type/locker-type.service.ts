@@ -7,7 +7,7 @@ import {UserAfterAuth} from 'src/common/docorator/user.decorator';
 import {UpdateLockerTypeReqDto} from './dto/updateLockerType.req.dto';
 
 import {LockerTypeDocument} from './schemas/locker-type.schema';
-import { LockerTypeResDto } from './dto/LockerType.res.dto';
+import {LockerTypeResDto} from './dto/LockerType.res.dto';
 
 
 @Injectable()
@@ -16,7 +16,7 @@ export class LockerTypeService {
     private readonly lockerTypeRepo: LockerTypeRepository,
   ) {}
 
-  async createLockerType(user: UserAfterAuth, createLockerTypeDto: CreateLockerTypeReqDto) : Promise<LockerTypeResDto> {
+  async createLockerType(user: UserAfterAuth, createLockerTypeDto: CreateLockerTypeReqDto): Promise<LockerTypeResDto> {
     /* 데이터 검증 필요
       - 동일한 유저 와 락카 네임이 있는경우
     */
@@ -26,7 +26,7 @@ export class LockerTypeService {
     }
     const createdLockerType = await this.lockerTypeRepo.createLockerType(user, createLockerTypeDto);
     return {
-      _id : createdLockerType._id,
+      _id: createdLockerType._id,
       userId: createdLockerType.userId,
       name: createdLockerType.name,
       quantity: createdLockerType.quantity,
@@ -35,9 +35,9 @@ export class LockerTypeService {
       createdAt: createdLockerType.createdAt,
       updatedAt: createdLockerType.updatedAt,
     }
-   }
+  }
 
-  async updateLockerType(user: UserAfterAuth, lockerTypeId: String, updateLockerTypeDto: UpdateLockerTypeReqDto):  Promise<LockerTypeResDto> {
+  async updateLockerType(user: UserAfterAuth, lockerTypeId: string, updateLockerTypeDto: UpdateLockerTypeReqDto): Promise<LockerTypeResDto> {
     const getLockerType = await this.lockerTypeRepo.findLockerTypeByLockerId(lockerTypeId)
     if (getLockerType === null) {
       throw new NotFoundException();
@@ -52,9 +52,9 @@ export class LockerTypeService {
       }
     }
     // 락카 삭제되었을 떄 조건 추가 필요
-    const updatedLockerType =  await this.lockerTypeRepo.updateLockerType(getLockerType, updateLockerTypeDto)
+    const updatedLockerType = await this.lockerTypeRepo.updateLockerType(getLockerType, updateLockerTypeDto)
     return {
-      _id : updatedLockerType._id,
+      _id: updatedLockerType._id,
       userId: updatedLockerType.userId,
       name: updatedLockerType.name,
       quantity: updatedLockerType.quantity,
@@ -65,10 +65,10 @@ export class LockerTypeService {
     }
   }
 
-  async findAllLockerTypes(userId : String)  : Promise<LockerTypeResDto[]> {
+  async findAllLockerTypes(userId: string): Promise<LockerTypeResDto[]> {
     const lockerTypes = await this.lockerTypeRepo.findLockerTypeByUserId(userId);
-    
-    return  lockerTypes.map(lockerType => ({
+
+    return lockerTypes.map(lockerType => ({
       _id: lockerType._id,
       userId: lockerType.userId,
       name: lockerType.name,
@@ -80,13 +80,13 @@ export class LockerTypeService {
     }));
   }
 
-  async findOneLockerType(userId: String, lockerTypeId : String): Promise<LockerTypeResDto> { 
+  async findOneLockerType(userId: string, lockerTypeId: string): Promise<LockerTypeResDto> {
     const findedLockerType = await this.lockerTypeRepo.findOneLockerTypeByLockerId(lockerTypeId);
-    if(userId !== findedLockerType.userId){
+    if (userId !== findedLockerType.userId) {
       throw new UnauthorizedException();
     }
     return {
-      _id : findedLockerType._id,
+      _id: findedLockerType._id,
       userId: findedLockerType.userId,
       name: findedLockerType.name,
       quantity: findedLockerType.quantity,
@@ -98,12 +98,12 @@ export class LockerTypeService {
   }
 
 
-  async deleteLockerType(userId: String, lockerTypeId : String) : Promise<LockerTypeDocument> {
+  async deleteLockerType(userId: string, lockerTypeId: string): Promise<LockerTypeDocument> {
     const lockerType = await this.lockerTypeRepo.findOneLockerTypeByLockerId(lockerTypeId)
     if (!lockerType) {
       throw new NotFoundException();
     }
-    if (lockerType.userId!== userId) {
+    if (lockerType.userId !== userId) {
       throw new UnauthorizedException();
     }
     return await this.lockerTypeRepo.deleteLockerType(lockerTypeId, lockerType);

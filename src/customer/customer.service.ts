@@ -1,28 +1,49 @@
-import {Injectable} from '@nestjs/common';
-import {CreateCustomerDto} from './dto/createCutomerReq';
-import {UpdateCustomerDto} from './dto/update-customer.dto';
+import {ConflictException, Injectable, NotFoundException, UnauthorizedException} from '@nestjs/common';
+import {CreateCustomerReqDto} from './dto/createCutomerReq';
+
 import {UserAfterAuth} from 'src/common/docorator/user.decorator';
+import {CustomerRepository} from './repository/customer.repository';
+import {Customer} from './schemas/customer.schema';
+import {getCustomerResDto} from './dto/getCustomerResDto';
+import {UpdateCustomerReqDto} from './dto/updateCustomerReq';
+
 
 
 @Injectable()
 export class CustomerService {
+  constructor(
+    private readonly customerRepo: CustomerRepository
+  ) {}
 
-  create(user: UserAfterAuth, createCustomerDto: CreateCustomerDto) {
-    console.log(user)
-    console.log(createCustomerDto)
-    return 'This action adds a new customer';
+  async createCustomer(user: UserAfterAuth, createCustomerDto: CreateCustomerReqDto): Promise<Customer> {
+    const existingCustomer = await this.customerRepo.findCustomerByUserId(user._id, createCustomerDto.phone);
+    if (existingCustomer !== null) {
+      throw new ConflictException();
+    }
+    return await this.customerRepo.createCustomer(user._id, createCustomerDto);
   }
 
-  findAll() {
-    return `This action returns all customer`;
+  async getAllCustomers(userId: string): Promise<getCustomerResDto[]> {
+    return await this.customerRepo.getAllCustomers(userId);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} customer`;
+  async findOneCustomerById(userId: string, customerId: string) {
+    const findCustomer = await this.customerRepo.findOneCustomerById(customerId);
+    if (userId !== findCustomer.userId) {
+      throw new UnauthorizedException();
+    }
+    return findCustomer;
   }
 
-  update(id: number, updateCustomerDto: UpdateCustomerDto) {
-    return `This action updates a #${id} customer`;
+  async updateCustomer(userId: string, customerId: string, updateCustomerReqDto: UpdateCustomerReqDto) {
+    const getCustomer = await this.customerRepo.findOneCustomerById(customerId);
+    if (getCustomer === null) {
+      throw new NotFoundException();
+    }
+    if (getCustomer.userId !== userId) {
+      throw new UnauthorizedException();
+    }
+    return await this.customerRepo.updateCustomer(getCustomer, updateCustomerReqDto);
   }
 
   remove(id: number) {
