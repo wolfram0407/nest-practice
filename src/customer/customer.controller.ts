@@ -17,7 +17,8 @@ const exampleCustomerId = '20fcbddb-3089-41a2-a9d2-dfc70b12ea32';
 @ApiBearerAuth()
 @Controller('customer')
 export class CustomerController {
-  constructor(private readonly customerService: CustomerService) {}
+  constructor(
+    private readonly customerService: CustomerService) {}
 
   @ApiOperation({summary: '볼링장 고객 등록', description: ``})
   @ApiCreatedResponse({description: '고객을 생성한다', type: CreateCustomerResDto})
@@ -53,7 +54,7 @@ export class CustomerController {
   }
 
   @ApiOperation({summary: '락카 타입 수정', description: ``})
-  @ApiParam({name: 'customerId', description: '수정할 락카 타입의 ID', example: `${exampleCustomerId}`})
+  @ApiParam({name: 'customerId', description: '수정할 고객의 ID', example: `${exampleCustomerId}`})
   @Put(':customerId')
   async updateCustomer(
     @User() {_id}: UserAfterAuth,
@@ -64,14 +65,21 @@ export class CustomerController {
   }
 
 
-  @ApiOperation({summary: '특정 유저를 삭제', description: `로그인 된 이용자의 특정 락카 타입을  삭제합니다.`})
-  @Delete(':id')
-  remove(@Param('id') id: string) {
+  @ApiOperation({summary: '특정 유저를 삭제', description: ``})
+  @ApiParam({name: 'customerId', description: '삭제할 고객의 ID', example: `${exampleCustomerId}`})
+  @Delete(':customerId')
+  async deleteCustomer(
+    @User() {_id}: UserAfterAuth,
+    @Param('customerId') customerId: string
+  ) {
     /*
-    1. locker에 등록되어 있는지 확인
+    1. locker에 등록되어 있는지 확인 
     2. 등록되어있으면 삭제 불가
     3. 등록되어 있지 않으면 삭제 
     */
-    return this.customerService.remove(+id);
+    // 락카 구현 후 추가 필요
+    const checkExistsLocker = '';
+
+    return await this.customerService.deleteCustomer(_id, customerId);
   }
 }

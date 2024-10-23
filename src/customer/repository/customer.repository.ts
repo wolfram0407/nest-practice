@@ -23,13 +23,20 @@ export class CustomerRepository {
     return await newCustomer.save();
   }
 
-  async findCustomerByUserId(userId: String, phoneNumber: String): Promise<CustomerDocument> {
+  async findCustomerByPhoneNumber(userId: String, phoneNumber: String): Promise<CustomerDocument> {
     return await this.customerModel.findOne({
       userId,
       phone: phoneNumber,
       deletedAt: null
     }).exec();
   }
+  async findCustomerByUserId(userId: String): Promise<CustomerDocument> {
+    return await this.customerModel.findOne({
+      userId,
+      deletedAt: null
+    }).exec();
+  }
+
 
   async getAllCustomers(userId: string) {
     return await this.customerModel.find({
@@ -55,4 +62,9 @@ export class CustomerRepository {
     return customer;
   }
 
+  async deleteCustomer(customer: CustomerDocument) {
+    customer.deletedAt = new Date();
+    await customer.save();
+    return customer;
+  }
 }

@@ -16,7 +16,7 @@ export class CustomerService {
   ) {}
 
   async createCustomer(user: UserAfterAuth, createCustomerDto: CreateCustomerReqDto): Promise<Customer> {
-    const existingCustomer = await this.customerRepo.findCustomerByUserId(user._id, createCustomerDto.phone);
+    const existingCustomer = await this.customerRepo.findCustomerByPhoneNumber(user._id, createCustomerDto.phone);
     if (existingCustomer !== null) {
       throw new ConflictException();
     }
@@ -46,7 +46,16 @@ export class CustomerService {
     return await this.customerRepo.updateCustomer(getCustomer, updateCustomerReqDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} customer`;
+  async deleteCustomer(userId: string, customerId: string) {
+    const checkCustomer = await this.customerRepo.findOneCustomerById(customerId);
+    console.log(checkCustomer)
+
+    if (checkCustomer === null) {
+      throw new NotFoundException();
+    }
+    if (checkCustomer.userId !== userId) {
+      throw new UnauthorizedException();
+    }
+    return await this.customerRepo.deleteCustomer(checkCustomer);
   }
 }
