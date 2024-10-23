@@ -2,7 +2,7 @@ import {ApiProperty} from "@nestjs/swagger";
 import {Sex} from "../type";
 import {IsEnum, IsNotEmpty, IsString, Length, Matches, MaxLength} from "class-validator";
 
-export class CreateCustomerDto {
+export class CreateCustomerReqDto {
 
 
   @ApiProperty({required: true, example: '홍길동'})
@@ -20,7 +20,7 @@ export class CreateCustomerDto {
 
   @ApiProperty({enum: Sex, example: Sex.None})
   @IsEnum(Sex)
-  sex: string;
+  sex: Sex;
 
 
   @ApiProperty({example: '920407'})

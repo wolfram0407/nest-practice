@@ -15,7 +15,7 @@ export class LockerTypeRepository {
   ) {
   }
   // 새로운 유저 등록
-  async createLockerType(user: UserAfterAuth, createLockerTypeDto: CreateLockerTypeReqDto): Promise<LockerTypeDocument>  {
+  async createLockerType(user: UserAfterAuth, createLockerTypeDto: CreateLockerTypeReqDto): Promise<LockerTypeDocument> {
     // 새로운 LockerType 생성
     const newLockerType = new this.lockerTypeModel({
       name: createLockerTypeDto.name,
@@ -27,25 +27,25 @@ export class LockerTypeRepository {
     return await newLockerType.save();
   }
   // 
-  async findLockerTypeByName(user: UserAfterAuth, name: string): Promise<LockerTypeDocument>  {
-    return await this.lockerTypeModel.findOne({name, userId: user._id,deletedAt: null}).exec();
+  async findLockerTypeByName(user: UserAfterAuth, name: string): Promise<LockerTypeDocument> {
+    return await this.lockerTypeModel.findOne({name, userId: user._id, deletedAt: null}).exec();
   }
 
-  async findLockerTypeByLockerId(lockerTypeId: String) : Promise<LockerTypeDocument> {
+  async findLockerTypeByLockerId(lockerTypeId: string): Promise<LockerTypeDocument> {
     return await this.lockerTypeModel.findOne({
       _id: lockerTypeId,
       deletedAt: null
     }).exec();
   }
 
-  async findLockerTypeByUserId ( userId : String)  {
+  async findLockerTypeByUserId(userId: string) {
     return await this.lockerTypeModel.find({
-      userId ,
+      userId,
       deletedAt: null
     }).exec();
   }
 
-  async findOneLockerTypeByLockerId( lockerTypeId: String): Promise<LockerTypeDocument>  {
+  async findOneLockerTypeByLockerId(lockerTypeId: string): Promise<LockerTypeDocument> {
     return await this.lockerTypeModel.findOne({
       _id: lockerTypeId,
       deletedAt: null
@@ -63,7 +63,7 @@ export class LockerTypeRepository {
   }
 
 
-  async deleteLockerType(lockerTypeId: String, lockerType : LockerTypeDocument): Promise<LockerTypeDocument>  {
+  async deleteLockerType(lockerTypeId: string, lockerType: LockerTypeDocument): Promise<LockerTypeDocument> {
     lockerType.deletedAt = new Date();
     await lockerType.save();
     return lockerType;

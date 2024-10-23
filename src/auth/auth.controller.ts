@@ -37,7 +37,7 @@ export class AuthController {
       name: user.name,
       email: user.email,
       phone: user.phone,
-      roles: user.roles as Role, // Enum으로 반환 확인
+      roles: user.roles as Role,
     };
   }
 
