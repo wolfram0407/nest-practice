@@ -5,12 +5,12 @@ import {ApiBearerAuth, ApiCreatedResponse, ApiExtraModels, ApiOperation, ApiTags
 
 import {SignupResDto} from './dto/SignupResDto';
 import {Role} from 'src/types';
-import {Public} from 'src/common/docorator/public.decorator';
+import {Public} from 'src/common/decorator/public.decorator';
 import {LoginReqDto} from './dto/LoginReqDto';
 
-import {UserAfterAuth, User} from 'src/common/docorator/user.decorator';
+import {UserAfterAuth, User} from 'src/common/decorator/user.decorator';
 import {LoginResDto} from './dto/loginResDto';
-import {ApiPostResponse} from 'src/common/docorator/swagger.decorator';
+import {ApiPostResponse} from 'src/common/decorator/swagger.decorator';
 import {createUserReqDto} from 'src/users/dto/createUser.req.dto';
 
 

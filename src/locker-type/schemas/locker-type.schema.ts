@@ -13,14 +13,17 @@ export class LockerType {
   @Prop({type: String, required: true})
   name: string;
 
-  @Prop({type: String, required: true})
+  @Prop({type: Number, required: true})
   quantity: number;
 
-  @Prop({type: String, required: true})
+  @Prop({type: Number, required: true})
   startNumber: number;
 
-  @Prop({type: Array , required: true })
+  @Prop({type: Array, required: true})
   exceptNumber: number[];
+
+  @Prop({type: Array, required: true})
+  noticePeriod: number[];
 
   @Prop({type: uuidv4, ref: 'User', required: true})
   userId: string;

@@ -1,4 +1,4 @@
-import { PartialType } from '@nestjs/swagger';
-import { CreateLockerDto } from './create-locker.dto';
+import {PartialType} from '@nestjs/swagger';
+import {CreateLockerReqDto} from './createLocker.req.dto';
 
-export class UpdateLockerDto extends PartialType(CreateLockerDto) {}
+export class UpdateLockerDto extends PartialType(CreateLockerReqDto) {}

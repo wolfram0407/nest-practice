@@ -1,7 +1,7 @@
 import {ConflictException, Injectable, NotFoundException, UnauthorizedException} from '@nestjs/common';
 import {CreateCustomerReqDto} from './dto/createCutomerReq';
 
-import {UserAfterAuth} from 'src/common/docorator/user.decorator';
+import {UserAfterAuth} from 'src/common/decorator/user.decorator';
 import {CustomerRepository} from './repository/customer.repository';
 import {Customer} from './schemas/customer.schema';
 import {getCustomerResDto} from './dto/getCustomerResDto';

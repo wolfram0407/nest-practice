@@ -1,10 +1,10 @@
 import {Injectable} from '@nestjs/common';
-import {CreateLockerDto} from './dto/create-locker.dto';
-import {UpdateLockerDto} from './dto/update-locker.dto';
+import {CreateLockerReqDto} from './dto/createLocker.req.dto';
+
 
 @Injectable()
 export class LockerService {
-  create(createLockerDto: CreateLockerDto) {
+  createLocker(userId: string, createLockerDto: CreateLockerReqDto) {
     return 'This action adds a new locker';
   }
 
@@ -16,9 +16,6 @@ export class LockerService {
     return `This action returns a #${id} locker`;
   }
 
-  update(id: number, updateLockerDto: UpdateLockerDto) {
-    return `This action updates a #${id} locker`;
-  }
 
   remove(id: number) {
     return `This action removes a #${id} locker`;

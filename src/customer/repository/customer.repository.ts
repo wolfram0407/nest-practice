@@ -3,7 +3,7 @@ import {Model} from 'mongoose';
 
 import {Injectable, NotFoundException} from '@nestjs/common';
 
-import {UserAfterAuth} from 'src/common/docorator/user.decorator';
+import {UserAfterAuth} from 'src/common/decorator/user.decorator';
 import {Customer, CustomerDocument} from '../schemas/customer.schema';
 import {CreateCustomerReqDto} from '../dto/createCutomerReq';
 import {UpdateCustomerReqDto} from '../dto/updateCustomerReq';

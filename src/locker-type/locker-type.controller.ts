@@ -1,80 +1,87 @@
 
 import {Controller, Get, Post, Body, Param, Delete, Put} from '@nestjs/common';
 import {LockerTypeService} from './locker-type.service';
-
-import {UpdateLockerTypeReqDto} from './dto/updateLockerType.req.dto';
 import {ApiBearerAuth, ApiExtraModels, ApiOperation, ApiParam, ApiTags} from '@nestjs/swagger';
-import {User, UserAfterAuth} from 'src/common/docorator/user.decorator';
-import {CreateLockerTypeReqDto} from './dto/createLockerType.req.dto';
+import {User, UserAfterAuth} from 'src/common/decorator/user.decorator';
+
 
 import {LockerTypeDocument} from './schemas/locker-type.schema';
 import {LockerTypeResDto} from './dto/LockerType.res.dto';
-import {ApiPostArrayResponse, ApiPostResponse} from 'src/common/docorator/swagger.decorator';
+import {ApiPostArrayResponse, ApiPostResponse} from 'src/common/decorator/swagger.decorator';
+import {CreateLockerTypeReqDto, UpdateLockerTypeInfoReqDto, UpdateLockerTypeReqDto} from './dto/req.dto';
 
-const exampleLockerTypeId = '1d4bb1c7-9fd8-4be7-9bab-1dc7121864a5';
+
+const exampleLockerTypeId = 'd91c77fa-b84c-470b-b1ee-eec6c37517dd';
 
 @ApiTags('LockerType')
+
 @ApiExtraModels(LockerTypeResDto)
+@ApiBearerAuth()
 @Controller('locker-type')
 export class LockerTypeController {
-  constructor(private readonly lockerTypeService: LockerTypeService) {}
+  constructor(
+    private readonly lockerTypeService: LockerTypeService
+  ) {}
 
   @ApiOperation({summary: '락카 타입 등록', description: ``})
-  @ApiPostResponse(LockerTypeResDto)
-  @ApiBearerAuth()
-  @Post('create')
+  @Post('locker-type')
   async CreateLockerType(
-    @User() user: UserAfterAuth,
-    @Body() createLockerTypeDto: CreateLockerTypeReqDto): Promise<LockerTypeResDto> {
-    return await this.lockerTypeService.createLockerType(user, createLockerTypeDto);;
-  }
-
-  @ApiOperation({summary: '락카 타입 수정', description: ``})
-  @ApiPostResponse(LockerTypeResDto)
-  @ApiParam({name: 'lockerTypeId', description: '수정할 락카 타입의 ID', example: `${exampleLockerTypeId}`})
-  @ApiBearerAuth()
-  @Put('update/:lockerTypeId')
-  async updateLockerType(
-    @User() user: UserAfterAuth,
-    @Body() updateLockerTypeDto: UpdateLockerTypeReqDto,
-    @Param('lockerTypeId') lockerTypeId: string
-  ): Promise<LockerTypeResDto> {
-
-    return await this.lockerTypeService.updateLockerType(user, lockerTypeId, updateLockerTypeDto);;
+    @User() {_id}: UserAfterAuth,
+    @Body() createLockerTypeDto: CreateLockerTypeReqDto) {
+    return await this.lockerTypeService.createLockerType(_id, createLockerTypeDto);
   }
 
   @ApiOperation({summary: '전체 락카 타입 조회', description: `로그인 된 이용자의 전체 락카타입을 조회합니다.`})
-  @ApiPostArrayResponse(LockerTypeResDto)
-  @ApiBearerAuth()
   @Get()
-  async findAllLockerTypes(
+  async getAllLockerTypes(
     @User() {_id}: UserAfterAuth,
-  ): Promise<LockerTypeResDto[]> {
-    return await this.lockerTypeService.findAllLockerTypes(_id);
+  ) {
+    return await this.lockerTypeService.getAllLockerTypes(_id);
   }
 
   @ApiOperation({summary: '특정 락카 타입 조회', description: `로그인 된 이용자의 특정 락카 타입을 조회 합니다.`})
-  @ApiPostResponse(LockerTypeResDto)
-  @ApiBearerAuth()
   @ApiParam({name: 'lockerTypeId', description: '수정할 락카 타입의 ID', example: `${exampleLockerTypeId}`})
   @Get(':lockerTypeId')
   async findOneLockerType(
     @User() {_id}: UserAfterAuth,
     @Param('lockerTypeId') lockerTypeId: string
-  ): Promise<LockerTypeResDto> {
+  ) {
     return await this.lockerTypeService.findOneLockerType(_id, lockerTypeId);
   }
 
+  // 수정은 2개로 나눠서 진행
+  // 1. 락카 타입만 수정
+  // 2. 락카 정보만 수정
+
+  @ApiOperation({summary: '락카 타입 수정', description: ``})
+  @ApiParam({name: 'lockerTypeId', description: '수정할 락카 타입의 ID', example: `${exampleLockerTypeId}`})
+  @Put(':lockerTypeId')
+  async updateLockerType(
+    @User() {_id}: UserAfterAuth,
+    @Body() updateLockerTypeDto: UpdateLockerTypeReqDto,
+    @Param('lockerTypeId') lockerTypeId: string
+  ) {
+    return await this.lockerTypeService.updateLockerType(_id, lockerTypeId, updateLockerTypeDto);;
+  }
+
+  @ApiOperation({summary: '락카 타입 정보 수정', description: ``})
+  @ApiParam({name: 'lockerTypeId', description: '수정할 락카 타입의 ID', example: `${exampleLockerTypeId}`})
+  @Put('info/:lockerTypeId')
+  async updateLockerTypeInfo(
+    @User() {_id}: UserAfterAuth,
+    @Body() updateLockerTypeInfoReqDto: UpdateLockerTypeInfoReqDto,
+    @Param('lockerTypeId') lockerTypeId: string
+  ) {
+    return await this.lockerTypeService.updateLockerTypeInfo(_id, lockerTypeId, updateLockerTypeInfoReqDto);;
+  }
 
   @ApiOperation({summary: '특정 락카 타입 삭제', description: `로그인 된 이용자의 특정 락카 타입을  삭제합니다.`})
-  @ApiPostResponse(LockerTypeResDto)
-  @ApiBearerAuth()
   @ApiParam({name: 'lockerTypeId', description: '삭제할 락카 타입의 ID', example: `${exampleLockerTypeId}`})
   @Delete(':lockerTypeId')
   async deleteLockerType(
     @User() {_id}: UserAfterAuth,
     @Param('lockerTypeId') lockerTypeId: string
-  ): Promise<LockerTypeDocument> {
+  ) {
     return await this.lockerTypeService.deleteLockerType(_id, lockerTypeId);
   }
 }

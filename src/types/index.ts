@@ -1,5 +1,4 @@
-export enum Role
-{
+export enum Role {
   Admin = 'ADMIN',
   User = 'USER',
 }
@@ -9,3 +8,5 @@ export type TokenPayload = {
   iat: number;
   jti: string;
 };
+
+

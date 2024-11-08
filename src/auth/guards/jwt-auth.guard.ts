@@ -4,7 +4,7 @@ import {Reflector} from "@nestjs/core";
 import {JwtService} from "@nestjs/jwt";
 import {AuthGuard} from "@nestjs/passport";
 import {Observable} from "rxjs";
-import {IS_PUBLIC_KEY} from "src/common/docorator/public.decorator";
+import {IS_PUBLIC_KEY} from "src/common/decorator/public.decorator";
 import {UsersService} from "src/users/users.service";
 
 

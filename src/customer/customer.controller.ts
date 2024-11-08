@@ -3,10 +3,10 @@ import {CustomerService} from './customer.service';
 import {CreateCustomerReqDto} from './dto/createCutomerReq';
 
 import {ApiBearerAuth, ApiConflictResponse, ApiCreatedResponse, ApiExtraModels, ApiOperation, ApiParam, ApiTags} from '@nestjs/swagger';
-import {User, UserAfterAuth} from 'src/common/docorator/user.decorator';
+import {User, UserAfterAuth} from 'src/common/decorator/user.decorator';
 import {CreateCustomerResDto} from './dto/createCutomerRes';
 import {getCustomerResDto} from './dto/getCustomerResDto';
-import {ApiPostArrayResponse, ApiPostResponse} from 'src/common/docorator/swagger.decorator';
+import {ApiPostArrayResponse, ApiPostResponse} from 'src/common/decorator/swagger.decorator';
 import {UpdateCustomerReqDto} from './dto/updateCustomerReq';
 
 
