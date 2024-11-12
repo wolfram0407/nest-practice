@@ -39,9 +39,7 @@ export class CreateLockerTypeReqDto {
   lockerTypeInfo: CreateLockerTypeInfo[];
 }
 
-
 export class UpdateLockerTypeReqDto extends PickType(CreateLockerTypeReqDto, ['name', 'quantity', 'startNumber', 'exceptNumber', 'noticePeriod'] as const) {}
-
 
 export class UpdateLockerTypeInfoReqDto {
   @ApiProperty({required: true, example: PriceType.Month})

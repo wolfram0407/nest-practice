@@ -31,7 +31,7 @@ export class LockerTypeRepository {
     return await this.lockerTypeModel.findOne({name, userId, deletedAt: null}).exec();
   }
 
-  async findLockerTypeByLockerId(lockerTypeId: string): Promise<LockerTypeDocument> {
+  async findOneLockerTypeByLockerId(lockerTypeId: string): Promise<LockerTypeDocument> {
     return await this.lockerTypeModel.findOne({
       _id: lockerTypeId,
       deletedAt: null
@@ -45,12 +45,6 @@ export class LockerTypeRepository {
     }).exec();
   }
 
-  async getLockerTypeByLockerId(lockerTypeId: string): Promise<LockerTypeDocument> {
-    return await this.lockerTypeModel.findOne({
-      _id: lockerTypeId,
-      deletedAt: null
-    }).exec();
-  }
 
   async updateLockerType(lockerType: LockerTypeDocument, updateLockerTypeReqDto: UpdateLockerTypeReqDto): Promise<LockerTypeDocument> {
     lockerType.name = updateLockerTypeReqDto.name ?? lockerType.name;

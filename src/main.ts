@@ -1,16 +1,23 @@
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-import { ConfigService } from '@nestjs/config';
-import { DocumentBuilder, SwaggerCustomOptions, SwaggerModule } from '@nestjs/swagger';
+import {NestFactory} from '@nestjs/core';
+import {AppModule} from './app.module';
+import {ConfigService} from '@nestjs/config';
+import {DocumentBuilder, SwaggerCustomOptions, SwaggerModule} from '@nestjs/swagger';
+import {ValidationPipe} from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService);
   app.setGlobalPrefix('/api');
-  
-  const port = configService.get<number>('PORT');
-  const serviceName = configService.get<string>('SERVICE_NAME');  // 문자열로 변경
 
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+      forbidNonWhitelisted: true,
+      forbidUnknownValues: true
+    })
+  );
+  const port = configService.get<number>('PORT');
+  const serviceName = configService.get<string>('SERVICE_NAME');
 
   const config = new DocumentBuilder()
     .setTitle(`${serviceName} API Docs`)

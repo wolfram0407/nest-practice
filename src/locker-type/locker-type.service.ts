@@ -28,11 +28,6 @@ export class LockerTypeService {
 
     const createdLockerType = await this.lockerTypeRepo.createLockerType(userId, createLockerTypeDto);
     const createdLockerTypeInfo = await this.lockerInfoService.createLockerTypeInfo(createdLockerType.id, createLockerTypeDto.lockerTypeInfo)
-    // if(!createdLockerTypeInfo)
-
-    if (!createdLockerType || !createdLockerTypeInfo) {
-      throw new Error('Failed to create locker type or locker type info');
-    }
 
     return {
       message: 'locker type successfully created',
@@ -64,9 +59,7 @@ export class LockerTypeService {
   }
   // 락카 타입 ID 로 조회 
   async findOneLockerType(userId: string, lockerTypeId: string) {
-
-
-    const getLockerType = await this.lockerTypeRepo.getLockerTypeByLockerId(lockerTypeId);
+    const getLockerType = await this.lockerTypeRepo.findOneLockerTypeByLockerId(lockerTypeId);
     if (getLockerType === null) {
       throw new NotFoundException();
     }
@@ -92,7 +85,7 @@ export class LockerTypeService {
 
   // 락카 타입 수정
   async updateLockerType(userId: string, lockerTypeId: string, updateLockerTypeDto: UpdateLockerTypeReqDto) { //:Promise<LockerTypeResDto> {
-    const getLockerType = await this.lockerTypeRepo.findLockerTypeByLockerId(lockerTypeId);
+    const getLockerType = await this.lockerTypeRepo.findOneLockerTypeByLockerId(lockerTypeId);
     if (getLockerType === null) {
       throw new NotFoundException();
     }
@@ -125,21 +118,33 @@ export class LockerTypeService {
         throw new NotFoundException();
       }
 
-      const updateLockerTypeInfo = await this.lockerInfoService.updateLockerTypeInfo(lockerTypeInfoId, updateLockerTypeInfoReqDto);
-
+      const checkAuth = await this.lockerTypeRepo.findOneLockerTypeByLockerId(lockerTypeInfo.lockerTypeId);
+      if (checkAuth.userId !== userId) {
+        throw new UnauthorizedException();
+      }
+      return await this.lockerInfoService.updateLockerTypeInfo(lockerTypeInfoId, updateLockerTypeInfoReqDto);
     }
   }
 
 
   async deleteLockerType(userId: string, lockerTypeId: string) {
-    // const lockerType = await this.lockerTypeRepo.findOneLockerTypeByLockerId(lockerTypeId)
-    // if (!lockerType) {
-    //   throw new NotFoundException();
-    // }
-    // if (lockerType.userId !== userId) {
-    //   throw new UnauthorizedException();
-    // }
-    // /* 락카가 남아있으면 삭제 불가 추가 필요 */
-    // return await this.lockerTypeRepo.deleteLockerType(lockerTypeId, lockerType);
+
+    // 등록된 락카 존재 시 삭제 불가
+
+    // 등록된 락카가 경우 
+    const lockerType = await this.lockerTypeRepo.findOneLockerTypeByLockerId(lockerTypeId)
+    if (!lockerType) {
+      throw new NotFoundException();
+    }
+
+    if (lockerType.userId !== userId) {
+      throw new UnauthorizedException();
+    }
+
+    await this.lockerTypeRepo.deleteLockerType(lockerTypeId, lockerType);
+
+    await this.lockerInfoService.deleteLockerTypeInfo(lockerTypeId);
+
+    return;
   }
 }

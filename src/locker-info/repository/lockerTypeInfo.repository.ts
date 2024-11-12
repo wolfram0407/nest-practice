@@ -52,4 +52,12 @@ export class LockerTypeInfoRepository {
       })
   }
 
+  async deleteLockerTypeInfo(lockerTypeId: string) {
+    const deletedAt = new Date();
+    const result = await this.lockerTypeInfoModel.updateMany(
+      {lockerTypeId},
+      {$set: {deletedAt}}
+    );
+    return result
+  }
 }

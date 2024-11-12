@@ -4,15 +4,12 @@ import {LockerTypeService} from './locker-type.service';
 import {ApiBearerAuth, ApiExtraModels, ApiOperation, ApiParam, ApiTags} from '@nestjs/swagger';
 import {User, UserAfterAuth} from 'src/common/decorator/user.decorator';
 
-
-import {LockerTypeDocument} from './schemas/locker-type.schema';
 import {LockerTypeResDto} from './dto/LockerType.res.dto';
-import {ApiPostArrayResponse, ApiPostResponse} from 'src/common/decorator/swagger.decorator';
 import {CreateLockerTypeReqDto, UpdateLockerTypeInfoReqDto, UpdateLockerTypeReqDto} from './dto/req.dto';
 
 
-const exampleLockerTypeId = 'd91c77fa-b84c-470b-b1ee-eec6c37517dd';
-const exampleLockerTypeInfoId = 'f09f47c4-1334-44da-ba9d-c0e9ea45b442'
+const exampleLockerTypeId = 'd7e425aa-f515-45a2-a891-c329cea9f973';
+const exampleLockerTypeInfoId = 'f5998924-beb0-4031-871d-3fad02e29b44'
 @ApiTags('LockerType')
 
 @ApiExtraModels(LockerTypeResDto)
@@ -72,6 +69,7 @@ export class LockerTypeController {
     @Body() updateLockerTypeInfoReqDto: UpdateLockerTypeInfoReqDto,
     @Param('lockerTypeInfoId') lockerTypeInfoId: string
   ) {
+
     return await this.lockerTypeService.updateLockerTypeInfo(_id, lockerTypeInfoId, updateLockerTypeInfoReqDto);;
   }
 

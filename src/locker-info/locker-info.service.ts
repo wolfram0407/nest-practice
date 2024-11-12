@@ -29,12 +29,8 @@ export class LockerInfoService {
     return await this.lockerTypeInfoRepo.updateLockerTypeInfo(lockerTypeInfoId, updateLockerTypeInfoReqDto);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} lockerInfo`;
+  async deleteLockerTypeInfo(lockerTypeId: string) {
+    return await this.lockerTypeInfoRepo.deleteLockerTypeInfo(lockerTypeId);
   }
 
-
-  remove(id: number) {
-    return `This action removes a #${id} lockerInfo`;
-  }
 }
