@@ -33,6 +33,15 @@ export class LockerController {
     return this.lockerService.findAllLockersByLockerTypeId(_id, lockerTypeId);
   }
 
+
+  @Get('/')
+  async findAllLockersByUserId(
+    @User() {_id}: UserAfterAuth,
+  ) {
+    return this.lockerService.findAllLockersByUserId(_id);
+  }
+
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.lockerService.findOne(+id);

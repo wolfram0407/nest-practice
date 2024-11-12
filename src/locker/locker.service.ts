@@ -37,7 +37,9 @@ export class LockerService {
     return await this.lockerRepo.findLockersByLockerTypeId(userId, lockerTypeId);
   }
 
-
+  async findAllLockersByUserId(userId: string) {
+    return await this.lockerRepo.findAllLockersByUserId(userId);
+  }
 
   findOne(id: number) {
     return `This action returns a #${id} locker`;

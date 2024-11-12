@@ -40,4 +40,16 @@ export class LockerRepository {
       });
     return findAllLockersByLockerTypeId;
   }
+
+  async findAllLockersByUserId(userId: string) {
+    const lockers = await this.customerModel.find({
+      userId,
+      deletedAt: null
+    })
+      .sort({
+        lockerTypeId: 1,
+        lockerNumber: 1
+      });
+    return lockers;
+  }
 }
