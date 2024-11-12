@@ -3,7 +3,7 @@ import {Model} from 'mongoose';
 
 import {Injectable, NotFoundException} from '@nestjs/common';
 import {Locker, LockerDocument} from '../schemas/locker.schema';
-import {CreateLockerReqDto} from '../dto/locker.req.dto';
+import {CreateLockerReqDto, UpdateLockerDto} from '../dto/locker.req.dto';
 
 
 @Injectable()
@@ -14,10 +14,12 @@ export class LockerRepository {
   }
 
   async findOneLockerByLockerNumber(lockerTypeId: string, lockerNumber: number) {
-    return await this.customerModel.findOne({
+    const result = await this.customerModel.findOne({
       lockerTypeId,
-      lockerNumber
+      lockerNumber,
+      deletedAt: null
     })
+    return result
   }
 
 
@@ -51,5 +53,25 @@ export class LockerRepository {
         lockerNumber: 1
       });
     return lockers;
+  }
+
+  async findOneByLockerId(lockerId: string) {
+    return await this.customerModel.findOne({
+      _id: lockerId,
+      deletedAt: null
+    })
+  }
+
+  async updateLocker(lockerId: string, updateLockerDto: UpdateLockerDto) {
+
+    return await this.customerModel.updateOne(
+      {_id: lockerId},
+      {
+        $set: {
+          customerId: updateLockerDto.customerId,
+          lockerNumber: updateLockerDto.lockerNumber,
+        }
+      }
+    )
   }
 }

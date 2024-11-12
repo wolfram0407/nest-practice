@@ -13,7 +13,9 @@ export class CreateLockerReqDto {
   customerId: string;
 
 }
-export class UpdateLockerDto extends PartialType(CreateLockerReqDto) {}
+// 수정이 락카 번호만 있는데 혹시 양도 변수로 전체 데이터 입력으로 둠
+export class UpdateLockerDto extends PickType(CreateLockerReqDto, ['customerId', 'lockerNumber'] as const) {}
 
 export class GetLockerByLockerTypeDto extends PickType(CreateLockerReqDto, ['lockerTypeId'] as const) {}
+
 

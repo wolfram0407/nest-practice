@@ -1,9 +1,9 @@
 import {LockerTypeService} from './../locker-type/locker-type.service';
 import {LockerType} from './../locker-type/schemas/locker-type.schema';
-import {BadRequestException, Injectable, UnauthorizedException} from '@nestjs/common';
+import {BadRequestException, Injectable, NotFoundException, UnauthorizedException, ConflictException} from '@nestjs/common';
 
 import {LockerRepository} from './repository/locker.repository';
-import {CreateLockerReqDto} from './dto/locker.req.dto';
+import {CreateLockerReqDto, UpdateLockerDto} from './dto/locker.req.dto';
 
 
 @Injectable()
@@ -41,6 +41,32 @@ export class LockerService {
     return await this.lockerRepo.findAllLockersByUserId(userId);
   }
 
+  async updateLocker(userId: string, lockerId: string, updateLockerDto: UpdateLockerDto) {
+
+    const checkLocker = await this.lockerRepo.findOneByLockerId(lockerId);
+    if (!checkLocker) {
+      throw new NotFoundException();
+    }
+    if (checkLocker.userId !== userId) {
+      throw new UnauthorizedException();
+    }
+    if (
+      checkLocker.lockerNumber !== updateLockerDto.lockerNumber ||
+      checkLocker.customerId !== updateLockerDto.customerId
+    ) {
+      const checkConflictNumber = await this.lockerRepo.findOneLockerByLockerNumber(
+        checkLocker.lockerTypeId, updateLockerDto.lockerNumber
+      );
+      if (!checkConflictNumber === false) {
+        throw new ConflictException();
+      }
+      await this.lockerRepo.updateLocker(lockerId, updateLockerDto);
+    }
+
+    return `This action returns a  locker`;
+
+
+  }
   findOne(id: number) {
     return `This action returns a #${id} locker`;
   }

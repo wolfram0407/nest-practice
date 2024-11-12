@@ -1,12 +1,12 @@
-import {Controller, Get, Post, Body, Patch, Param, Delete} from '@nestjs/common';
+import {Controller, Get, Post, Body, Patch, Param, Delete, Put} from '@nestjs/common';
 import {LockerService} from './locker.service';
 
 import {ApiBearerAuth, ApiParam, ApiTags} from '@nestjs/swagger';
 import {User, UserAfterAuth} from 'src/common/decorator/user.decorator';
-import {CreateLockerReqDto} from './dto/locker.req.dto';
+import {CreateLockerReqDto, UpdateLockerDto} from './dto/locker.req.dto';
 
 const exampleLockerTypeId = 'd91c77fa-b84c-470b-b1ee-eec6c37517dd';
-
+const exampleLockerId = '8bc49a61-8053-4729-9483-1aef8fa18c2d';
 @ApiTags('locker')
 @ApiBearerAuth()
 
@@ -41,16 +41,21 @@ export class LockerController {
     return this.lockerService.findAllLockersByUserId(_id);
   }
 
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.lockerService.findOne(+id);
+  @ApiParam({name: 'lockerId', description: '수정할 락카의 ID', example: `${exampleLockerId}`})
+  @Put('/:lockerId')
+  async updateLocker(
+    @User() {_id}: UserAfterAuth,
+    @Param('lockerId') lockerId: string,
+    @Body() updateLockerDto: UpdateLockerDto
+  ) {
+    return this.lockerService.updateLocker(_id, lockerId, updateLockerDto);
   }
 
 
-
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(
+
+    @Param('id') id: string) {
     return this.lockerService.remove(+id);
   }
 }
