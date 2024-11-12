@@ -53,10 +53,10 @@ export class LockerTypeInfoRepository {
   }
 
   async deleteLockerTypeInfo(lockerTypeId: string) {
-    const deletedAt = new Date();
+    const deletedTime = new Date();
     const result = await this.lockerTypeInfoModel.updateMany(
       {lockerTypeId},
-      {$set: {deletedAt}}
+      {$set: {deletedTime}}
     );
     return result
   }

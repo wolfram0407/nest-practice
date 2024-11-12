@@ -74,4 +74,11 @@ export class LockerRepository {
       }
     )
   }
+  async deleteLocker(lockerId: string) {
+    const deletedTime = new Date();
+    const result = await this.customerModel.updateOne(
+      {_id: lockerId},
+      {$set: {deletedTime}})
+    return result;
+  }
 }

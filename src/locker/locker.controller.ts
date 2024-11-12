@@ -52,10 +52,12 @@ export class LockerController {
   }
 
 
-  @Delete(':id')
-  remove(
-
-    @Param('id') id: string) {
-    return this.lockerService.remove(+id);
+  @ApiParam({name: 'lockerId', description: '수정할 락카의 ID', example: `${exampleLockerId}`})
+  @Delete('/:lockerId')
+  async deleteLocker(
+    @User() {_id}: UserAfterAuth,
+    @Param('lockerId') lockerId: string,
+  ) {
+    return this.lockerService.deleteLocker(_id, lockerId);
   }
 }

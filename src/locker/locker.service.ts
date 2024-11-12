@@ -4,6 +4,7 @@ import {BadRequestException, Injectable, NotFoundException, UnauthorizedExceptio
 
 import {LockerRepository} from './repository/locker.repository';
 import {CreateLockerReqDto, UpdateLockerDto} from './dto/locker.req.dto';
+import {rejects} from 'assert';
 
 
 @Injectable()
@@ -67,12 +68,15 @@ export class LockerService {
 
 
   }
-  findOne(id: number) {
-    return `This action returns a #${id} locker`;
+  async deleteLocker(userId: string, lockerId: string) {
+    const findLocker = await this.lockerRepo.findOneByLockerId(lockerId);
+    if (!findLocker) {
+      throw new NotFoundException();
+    }
+    if (findLocker.userId !== userId) {
+      throw new UnauthorizedException();
+    }
+    return await this.lockerRepo.deleteLocker(lockerId);
   }
 
-
-  remove(id: number) {
-    return `This action removes a #${id} locker`;
-  }
 }
