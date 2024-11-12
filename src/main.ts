@@ -12,9 +12,7 @@ async function bootstrap() {
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
-      forbidNonWhitelisted: true,
-      forbidUnknownValues: true
-    })
+    }),
   );
   const port = configService.get<number>('PORT');
   const serviceName = configService.get<string>('SERVICE_NAME');

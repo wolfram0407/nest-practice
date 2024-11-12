@@ -23,7 +23,7 @@ export class CreateCustomerReqDto {
   sex: Sex;
 
 
-  @ApiProperty({example: '920407'})
+  @ApiProperty({example: '19920407'})
   @IsString()
   @IsNotEmpty()
   @Length(8)

@@ -5,6 +5,7 @@ import {MongooseModule} from '@nestjs/mongoose';
 import {Locker, lockerSchema} from './schemas/locker.schema';
 
 import {LockerTypeModule} from 'src/locker-type/locker-type.module';
+import {LockerRepository} from './repository/locker.repository';
 
 @Module({
   imports: [
@@ -14,7 +15,7 @@ import {LockerTypeModule} from 'src/locker-type/locker-type.module';
     LockerTypeModule,
   ],
   controllers: [LockerController],
-  providers: [LockerService],
+  providers: [LockerService, LockerRepository],
   exports: [LockerService],
 })
 export class LockerModule {}

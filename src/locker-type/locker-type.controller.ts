@@ -8,7 +8,7 @@ import {LockerTypeResDto} from './dto/LockerType.res.dto';
 import {CreateLockerTypeReqDto, UpdateLockerTypeInfoReqDto, UpdateLockerTypeReqDto} from './dto/req.dto';
 
 
-const exampleLockerTypeId = 'd7e425aa-f515-45a2-a891-c329cea9f973';
+const exampleLockerTypeId = 'd91c77fa-b84c-470b-b1ee-eec6c37517dd';
 const exampleLockerTypeInfoId = 'f5998924-beb0-4031-871d-3fad02e29b44'
 @ApiTags('LockerType')
 

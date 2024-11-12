@@ -13,11 +13,15 @@ export class Locker {
   @Prop({type: uuidv4, ref: 'LockerType', required: true})
   lockerTypeId: string;
 
-  @Prop({type: String, required: true})
+  @Prop({type: Number, required: true})
   lockerNumber: number;
 
   @Prop({type: uuidv4, ref: 'User', required: true})
   customerId: string;
+
+  // userId로 락카 조회를 많이 할 것 같다.
+  @Prop({type: uuidv4, ref: 'User', required: true})
+  userId: string;
 
   @Prop({type: Date, default: Date.now})
   createdAt: Date;
