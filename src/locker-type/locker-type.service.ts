@@ -90,7 +90,6 @@ export class LockerTypeService {
     };
   }
 
-
   // 락카 타입 수정
   async updateLockerType(userId: string, lockerTypeId: string, updateLockerTypeDto: UpdateLockerTypeReqDto) { //:Promise<LockerTypeResDto> {
     const getLockerType = await this.lockerTypeRepo.findLockerTypeByLockerId(lockerTypeId);
@@ -119,9 +118,14 @@ export class LockerTypeService {
     }
   }
 
-  async updateLockerTypeInfo(userId: string, lockerTypeId: string, updateLockerTypeInfoReqDto: UpdateLockerTypeInfoReqDto) {
+  async updateLockerTypeInfo(userId: string, lockerTypeInfoId: string, updateLockerTypeInfoReqDto: UpdateLockerTypeInfoReqDto) {
     {
-      console.log(updateLockerTypeInfoReqDto)
+      const lockerTypeInfo = await this.lockerInfoService.getFindOneLockerTypeInfoById(lockerTypeInfoId);
+      if (lockerTypeInfo === null) {
+        throw new NotFoundException();
+      }
+
+      const updateLockerTypeInfo = await this.lockerInfoService.updateLockerTypeInfo(lockerTypeInfoId, updateLockerTypeInfoReqDto);
 
     }
   }

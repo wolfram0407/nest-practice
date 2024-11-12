@@ -5,6 +5,7 @@ import {LockerTypeInfo} from "../schemas/locker-info.schema";
 import {Model} from 'mongoose';
 import {CreateLockerTypeInfoReqDto} from "../dto/createLockerTypeInfo.req.dto";
 import {CreateLockerTypeInfo} from "src/locker-type/interfaces/createLockerType.interface";
+import {UpdateLockerTypeInfoReqDto} from "src/locker-type/dto/req.dto";
 
 
 
@@ -30,6 +31,25 @@ export class LockerTypeInfoRepository {
       lockerTypeId,
       deletedAt: null
     }).exec();
+  }
+
+  async getFindOneLockerTypeInfoById(lockerTypeInfoId: string) {
+    return await this.lockerTypeInfoModel.findOne({
+      _id: lockerTypeInfoId
+    })
+  }
+
+  async updateLockerTypeInfo(lockerTypeInfoId: string, updateLockerTypeInfoReqDto: UpdateLockerTypeInfoReqDto) {
+    return await this.lockerTypeInfoModel.updateOne(
+      {_id: lockerTypeInfoId},
+      {
+        $set: {
+          priceType: updateLockerTypeInfoReqDto.priceType,
+          securityPrice: updateLockerTypeInfoReqDto.securityPrice,
+          lockerPrice: updateLockerTypeInfoReqDto.lockerPrice,
+          lockerPeriod: updateLockerTypeInfoReqDto.lockerPeriod,
+        }
+      })
   }
 
 }

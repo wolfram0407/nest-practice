@@ -12,7 +12,7 @@ import {CreateLockerTypeReqDto, UpdateLockerTypeInfoReqDto, UpdateLockerTypeReqD
 
 
 const exampleLockerTypeId = 'd91c77fa-b84c-470b-b1ee-eec6c37517dd';
-
+const exampleLockerTypeInfoId = 'f09f47c4-1334-44da-ba9d-c0e9ea45b442'
 @ApiTags('LockerType')
 
 @ApiExtraModels(LockerTypeResDto)
@@ -65,14 +65,14 @@ export class LockerTypeController {
   }
 
   @ApiOperation({summary: '락카 타입 정보 수정', description: ``})
-  @ApiParam({name: 'lockerTypeId', description: '수정할 락카 타입의 ID', example: `${exampleLockerTypeId}`})
-  @Put('info/:lockerTypeId')
+  @ApiParam({name: 'lockerTypeInfoId', description: '수정할 락카 타입 정보 의 ID', example: `${exampleLockerTypeInfoId}`})
+  @Put('info/:lockerTypeInfoId')
   async updateLockerTypeInfo(
     @User() {_id}: UserAfterAuth,
     @Body() updateLockerTypeInfoReqDto: UpdateLockerTypeInfoReqDto,
-    @Param('lockerTypeId') lockerTypeId: string
+    @Param('lockerTypeInfoId') lockerTypeInfoId: string
   ) {
-    return await this.lockerTypeService.updateLockerTypeInfo(_id, lockerTypeId, updateLockerTypeInfoReqDto);;
+    return await this.lockerTypeService.updateLockerTypeInfo(_id, lockerTypeInfoId, updateLockerTypeInfoReqDto);;
   }
 
   @ApiOperation({summary: '특정 락카 타입 삭제', description: `로그인 된 이용자의 특정 락카 타입을  삭제합니다.`})

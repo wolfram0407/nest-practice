@@ -1,6 +1,6 @@
 
 import {ApiProperty, PickType} from "@nestjs/swagger";
-import {IsNotEmpty, IsNumber, IsOptional, MaxLength} from "class-validator";
+import {IsEnum, IsNotEmpty, IsNumber, IsOptional, MaxLength} from "class-validator";
 import {PriceType} from "../enum/priceType.enum";
 import {CreateLockerTypeInfo} from "../interfaces/createLockerType.interface";
 
@@ -43,4 +43,20 @@ export class CreateLockerTypeReqDto {
 export class UpdateLockerTypeReqDto extends PickType(CreateLockerTypeReqDto, ['name', 'quantity', 'startNumber', 'exceptNumber', 'noticePeriod'] as const) {}
 
 
-export class UpdateLockerTypeInfoReqDto extends PickType(CreateLockerTypeReqDto, ['lockerTypeInfo'] as const) {}
+export class UpdateLockerTypeInfoReqDto {
+  @ApiProperty({required: true, example: PriceType.Month})
+  @IsEnum(PriceType)
+  priceType: PriceType;
+
+  @ApiProperty({required: true, example: 10000})
+  @IsNumber()
+  securityPrice: number;
+
+  @ApiProperty({required: true, example: 20000})
+  @IsNumber()
+  lockerPrice: number;
+
+  @ApiProperty({required: true, example: 12})
+  @IsNumber()
+  lockerPeriod: number;
+}

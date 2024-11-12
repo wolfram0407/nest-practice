@@ -3,6 +3,7 @@ import {Injectable} from '@nestjs/common';
 import {CreateLockerTypeInfoReqDto} from './dto/createLockerTypeInfo.req.dto';
 import {LockerTypeInfoRepository} from './repository/lockerTypeInfo.repository';
 import {CreateLockerTypeInfo} from 'src/locker-type/interfaces/createLockerType.interface';
+import {UpdateLockerTypeInfoReqDto} from 'src/locker-type/dto/req.dto';
 
 @Injectable()
 export class LockerInfoService {
@@ -20,9 +21,12 @@ export class LockerInfoService {
     return await this.lockerTypeInfoRepo.getAllLockerTypeInfoByLockerTypeId(lockerTypeId);
   }
 
+  async getFindOneLockerTypeInfoById(lockerTypeId: string) {
+    return await this.lockerTypeInfoRepo.getFindOneLockerTypeInfoById(lockerTypeId);
+  }
 
-  findAll() {
-    return `This action returns all lockerInfo`;
+  async updateLockerTypeInfo(lockerTypeInfoId: string, updateLockerTypeInfoReqDto: UpdateLockerTypeInfoReqDto) {
+    return await this.lockerTypeInfoRepo.updateLockerTypeInfo(lockerTypeInfoId, updateLockerTypeInfoReqDto);
   }
 
   findOne(id: number) {
